@@ -1,0 +1,14 @@
+name: Second
+version: '1.0'
+main: me.void.Main
+api-version: 1.12.2
+commands:
+
+  spawnGuid:
+    description: Призывает Гида-жителя
+
+  spawnSeller:
+    description: Призывает Скупающего жителя
+
+  spawnMagazine:
+    description: Призывает Магазин-жителя
