@@ -5,8 +5,6 @@ import me.void.commands.MagazineSpawn
 import me.void.commands.SellerSpawn
 import me.void.listeners.FishEvent
 import me.void.menus.MenuVillager
-import me.void.util.Util
-import me.void.util.Util.*
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -18,15 +16,13 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class Main : JavaPlugin() {
 
-
-
-    init {
-        instance = this
-    }
-
     companion object {
         lateinit var instance: Main
             private set
+    }
+
+    init {
+        instance = this
     }
 
     override fun onEnable() {

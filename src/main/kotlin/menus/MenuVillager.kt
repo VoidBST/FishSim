@@ -1,12 +1,12 @@
 package me.void.menus
 
 
-import me.void.util.Util
-import org.bukkit.Bukkit
+import me.void.util.FishingData
+import me.void.util.ItemsToFish
+import me.void.util.VillagerMenu
+import me.void.util.VillagersCreate
 import org.bukkit.ChatColor
-import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
 import org.bukkit.event.EventHandler
@@ -26,24 +26,24 @@ class MenuVillager: Listener {
 
         val entity = event.rightClicked
 
-        val seller = Util.VillagersCreate.entityVillagers[0]
-        val guide = Util.VillagersCreate.entityVillagers[1]
-        val magazine = Util.VillagersCreate.entityVillagers[2]
+        val seller = VillagersCreate.entityVillagers[0]
+        val guide = VillagersCreate.entityVillagers[1]
+        val magazine = VillagersCreate.entityVillagers[2]
 
         when {
             entity.name == seller.villagerName -> {
 
-                Util.VillagerMenu.sellerVillagerMenu(player)
+                VillagerMenu.sellerVillagerMenu(player)
 
             }
             entity.name == guide.villagerName -> {
 
-                Util.VillagerMenu.openVillagerGuide(player)
+                VillagerMenu.openVillagerGuide(player)
 
             }
             entity.name == magazine.villagerName && entity.type == magazine.typeEntity -> {
 
-                Util.VillagerMenu.openVillagerMagazine(player)
+                VillagerMenu.openVillagerMagazine(player)
 
             }
         }
@@ -51,7 +51,7 @@ class MenuVillager: Listener {
     }
 
     @EventHandler
-    fun onPlayerInteractVillager(event: PlayerInteractEntityEvent) {
+    fun closeMenuVillager(event: PlayerInteractEntityEvent) {
         val entity = event.rightClicked
         event.isCancelled = entity is Villager
     }
@@ -61,9 +61,9 @@ class MenuVillager: Listener {
 
             val player = event.whoClicked as Player
 
-            val boots: ItemStack = Util.ItemsToFish.fishItems[0].toItemStack()
-            val vine: ItemStack = Util.ItemsToFish.fishItems[1].toItemStack()
-            val paint: ItemStack = Util.ItemsToFish.fishItems[2].toItemStack()
+            val boots: ItemStack = ItemsToFish.fishItems[0].toItemStack()
+            val vine: ItemStack = ItemsToFish.fishItems[1].toItemStack()
+            val paint: ItemStack = ItemsToFish.fishItems[2].toItemStack()
 
             val emeraldBoots = ItemStack(Material.EMERALD, 10)
             val emeraldVine = ItemStack(Material.EMERALD, 5)
@@ -103,8 +103,8 @@ class MenuVillager: Listener {
             val magazineGUI: String = ChatColor.AQUA.toString() + "Магазин"
             val player = event.whoClicked as Player
 
-            val secondRod: ItemStack = Util.FishingData.fishingItems[1].toItemStack()
-            val thirdRod: ItemStack = Util.FishingData.fishingItems[2].toItemStack()
+            val secondRod: ItemStack = FishingData.fishingItems[1].toItemStack()
+            val thirdRod: ItemStack = FishingData.fishingItems[2].toItemStack()
 
             val emeraldFirstRod = ItemStack(Material.EMERALD, 15)
             val emeraldSecondRod = ItemStack(Material.EMERALD, 25)
@@ -146,7 +146,7 @@ class MenuVillager: Listener {
             val guideGUI: String = ChatColor.AQUA.toString() + "Меню гида"
             val player = event.whoClicked as Player
 
-            val firstRod: ItemStack = Util.FishingData.fishingItems[0].toItemStack()
+            val firstRod: ItemStack = FishingData.fishingItems[0].toItemStack()
 
             if (event.clickedInventory.title == guideGUI) {
                 if (event.currentItem.equals(firstRod)) {

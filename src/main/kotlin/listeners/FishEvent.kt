@@ -1,7 +1,7 @@
 package me.void.listeners
 
 
-import me.void.util.Util
+import me.void.util.ItemsToFish
 import org.bukkit.ChatColor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -19,28 +19,20 @@ class FishEvent: Listener {
 
             val player = event.player
 
-            val boots: ItemStack = Util.ItemsToFish.fishItems[0].toItemStack()
-            val vine: ItemStack = Util.ItemsToFish.fishItems[1].toItemStack()
-            val paint: ItemStack = Util.ItemsToFish.fishItems[2].toItemStack()
-            val randomListFish = listOf(boots, vine, paint)
+            val boots: ItemStack = ItemsToFish.fishItems[0].toItemStack()
+            val vine: ItemStack = ItemsToFish.fishItems[1].toItemStack()
+            val paint: ItemStack = ItemsToFish.fishItems[2].toItemStack()
 
-            // Выбор случайного предмета
+            val randomListFish = listOf(boots, vine, paint)
             val randomLoot = randomListFish.random()
 
-
-            // Добавление предмета в инвентарь игрока
             player.inventory.addItem(randomLoot)
             event.caught.remove()
 
-            // Убираем определенное количество опыта (например, 5)
             val newExp = player.totalExperience - 5
             player.totalExperience = if (newExp < 0) 0 else newExp
 
-            // Уведомление игрока о получении предмета
             player.sendMessage(ChatColor.GREEN.toString() + "Вы успешно поймали предмет!")
-
-
-
 
         }
 

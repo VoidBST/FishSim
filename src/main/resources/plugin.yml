@@ -5,10 +5,10 @@ api-version: 1.12.2
 commands:
 
   spawnGuid:
-    description: Призывает Гида-жителя
+    description: Призывает Жителя-гида
 
   spawnSeller:
-    description: Призывает Скупающего жителя
+    description: Призывает Жителя-скупщика
 
   spawnMagazine:
-    description: Призывает Магазин-жителя
+    description: Призывает Жителя-магазин
