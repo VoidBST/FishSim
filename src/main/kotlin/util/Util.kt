@@ -1,18 +1,24 @@
 package me.void.util
 
 
+
+import me.void.data.EntityVillagersID
 import me.void.data.FishingItem
 import me.void.data.Rods
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.entity.EntityType
+import org.bukkit.entity.Villager
 
 class Util {
 
-    companion object {
+    object VillagerMenu {
         fun openVillagerGuide(player: Player) {
 
             val inventoryGuide = Bukkit.createInventory(null, 9, ChatColor.AQUA.toString() + "Меню гида")
@@ -138,5 +144,75 @@ class Util {
 
         )
     }
+
+    object VillagersCreate {
+
+        // Изменение MutableMap на Map с entityId в качестве ключа
+        val villagers: MutableMap<Int, Villager> = mutableMapOf()
+
+        fun handle(entity: Entity) {
+            val villager = villagers[entity.entityId]  // Используем entityId вместо uniqueId
+            if (villager != null) {
+                // Обработка найденного жителя
+            } else {
+                // Обработка случая, когда Villager не найден
+            }
+        }
+
+
+        private val sellerVillager = EntityType.VILLAGER
+        private val sellerName = ChatColor.DARK_RED.toString() + ChatColor.BOLD.toString() + "Скупщик"
+        val idSeller: MutableMap<Int, Villager> = villagers
+
+        private val guidVillager = EntityType.VILLAGER
+        private val guidName = ChatColor.AQUA.toString() + "Гид"
+        val idGuid: MutableMap<Int, Villager> = villagers
+
+        private val magazineVillager = EntityType.VILLAGER
+        private val magazineName = ChatColor.DARK_GREEN.toString() + "Продавец"
+        val idMagazine: MutableMap<Int, Villager> = villagers
+
+        val entityVillagers = listOf(
+            EntityVillagersID(sellerVillager, sellerName),
+            EntityVillagersID(guidVillager, guidName),
+            EntityVillagersID(magazineVillager, magazineName),
+        )
+    }
+
+    object SpawnVillagers {
+        private fun spawnVillager(sender: Player, profession: Villager.Profession, name: String) {
+            if (sender.isOp) {
+                val playerLocation = sender.location
+                val world = Bukkit.getWorld("world")
+                if (world != null) {
+                    val villagerCoordinates = Location(world, playerLocation.x, playerLocation.y, playerLocation.z)
+                    val villager = world.spawnEntity(villagerCoordinates, EntityType.VILLAGER) as Villager
+                    villager.profession = profession
+                    //val villagerInfo = VillagersCreate.entityVillagers[villagerIndex]
+                    villager.customName = name
+                    villager.setAI(false)
+                    villager.trader
+
+                    VillagersCreate.villagers[villager.entityId] = villager
+                }
+            }
+        }
+
+        fun spawnVillagerSeller(sender: Player) {
+            spawnVillager(sender, Villager.Profession.FARMER, VillagersCreate.entityVillagers[0].villagerName)
+        }
+
+        fun spawnGuideVillager(sender: Player) {
+            spawnVillager(sender, Villager.Profession.PRIEST, VillagersCreate.entityVillagers[1].villagerName)
+        }
+
+        fun spawnMagazineVillager(sender: Player) {
+            spawnVillager(sender, Villager.Profession.LIBRARIAN, VillagersCreate.entityVillagers[2].villagerName)
+        }
+
+
+    }
+
+
 }
 
